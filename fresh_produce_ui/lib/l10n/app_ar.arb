@@ -1,0 +1,126 @@
+{
+  "appTitle": "منتجات طازجة",
+  "login": "تسجيل الدخول",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "rememberMe": "تذكرني",
+  "dontHaveAccount": "ليس لديك حساب؟ سجل الآن",
+  "register": "تسجيل",
+  "fullName": "الاسم الكامل",
+  "welcomeBack": "مرحباً بعودتك!",
+  "createAccount": "إنشاء حساب",
+  "activeRounds": "الجولات النشطة",
+  "myOrders": "طلباتي",
+  "selectNeighborhood": "اختر المنطقة",
+  "confirmOrder": "تأكيد الطلب",
+  "cancel": "إلغاء",
+  "checkout": "الدفع",
+  "total": "الإجمالي",
+  "delivery": "توصيل",
+  "pickup": "استلام",
+  "produceRounds": "جولات المنتجات",
+  "all": "الكل",
+  "open": "مفتوح",
+  "pricing": "التسعير",
+  "deliveryPhase": "التوصيل",
+  "done": "تم",
+  "logout": "تسجيل الخروج",
+  "noRoundsFound": "لم يتم العثور على جولات.",
+  "noRoundsOpen": "لا توجد جولات مفتوحة للطلبات بعد.",
+  "noRoundsPricing": "لا توجد جولات في مرحلة التسعير.",
+  "noRoundsDelivery": "لا توجد جولات في مرحلة التوصيل.",
+  "noHistoryFound": "لا يوجد سجل طلبيات.",
+  "roundDetails": "تفاصيل الجولة",
+  "roundHash": "الجولة #",
+  "deadline": "الموعد النهائي: ",
+  "priceNotice": "تنبيه السعر:",
+  "priceNoticeDetail": "الأسعار تقديرية وقد تختلف بنسبة ±15% بناءً على الشراء النهائي من سوق الجملة.",
+  "batchClosed": "الدفعة مغلقة للطلبات",
+  "addItemsToStart": "أضف منتجات لبدء الطلب",
+  "reviewOrderPayDeposit": "مراجعة الطلب وتقديمه",
+  "orderSummary": "ملخص الطلب",
+  "orderItems": "المنتجات",
+  "totalEstimated": "إجمالي تقديري",
+  "homeDeliveryFee": "رسوم التوصيل للمنزل",
+  "placeOrder": "تقديم الطلب",
+  "cashOnDeliveryNotice": "الدفع عند الاستلام - ادفع عند استلام طلبك",
+  "amountDueOnDelivery": "المبلغ المستحق عند التوصيل:",
+  "kg": "كجم",
+  "egp": "ج.م",
+  "ends": "ينتهي:",
+  "targetLabel": "{amount}{unit} مستهدف",
+  "@targetLabel": {
+    "placeholders": {
+      "amount": { "type": "String" },
+      "unit": { "type": "String" }
+    }
+  },
+  "leftLabel": "{amount}{unit} متبقي",
+  "@leftLabel": {
+    "placeholders": {
+      "amount": { "type": "String" },
+      "unit": { "type": "String" }
+    }
+  },
+  "moreItems": "+ {count} منتجات إضافية",
+  "@moreItems": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "roundStatusOpen": "مفتوح",
+  "roundStatusLocked": "مغلق",
+  "roundStatusFinished": "جاهز",
+  "roundStatusDelivering": "جاري التوصيل",
+  "roundStatusDelivered": "تم التوصيل",
+  "roundStatusCompleted": "مكتمل",
+  "roundStatusCancelled": "ملغي",
+  "est": "تقدير: {price} {currency} / {unit}",
+  "@est": {
+    "placeholders": {
+      "price": { "type": "String" },
+      "currency": { "type": "String" },
+      "unit": { "type": "String" }
+    }
+  },
+  "marketPrice": "سعر السوق: {price} {currency}",
+  "@marketPrice": {
+    "placeholders": {
+      "price": { "type": "String" },
+      "currency": { "type": "String" }
+    }
+  },
+  "percentageFilled": "{percentage}% مكتمل",
+  "@percentageFilled": {
+    "placeholders": {
+      "percentage": { "type": "int" }
+    }
+  },
+  "pleaseLoginToViewOrders": "يرجى تسجيل الدخول لعرض طلباتك.",
+  "noOrdersYet": "لا توجد طلبات بعد.",
+  "placedOn": "تم الطلب في: ",
+  "priceChangedNotice": "لقد تغير السعر. يرجى التأكيد إذا كنت ترغب في الاستمرار في هذا الطلب.",
+  "reject": "رفض",
+  "confirm": "تأكيد",
+  "welcomeTo": "مرحباً بكم في",
+  "chooseNeighborhoodNotice": "اختر منطقتك لمشاهدة جولات الشراء الجماعي النشطة في القاهرة.",
+  "orderPlaced": "تم تقديم الطلب!",
+  "orderSuccessDetail": "تم تقديم طلبك بنجاح. سيتم إخطارك عند إغلاق الجولة وتأكيد الأسعار النهائية. سيتم تحصيل المبلغ نقداً عند التوصيل.",
+  "backToHome": "العودة للرئيسية",
+  "statusPlaced": "تم التقديم",
+  "statusAwaitingConfirmation": "في انتظار التأكيد",
+  "statusConfirmed": "تم التأكيد",
+  "statusRejected": "مرفوض",
+  "statusPaid": "تم الدفع",
+  "statusDelivered": "تم التوصيل",
+  "statusCancelled": "ملغي",
+  "error": "خطأ: {message}",
+  "@error": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  }
+}
+

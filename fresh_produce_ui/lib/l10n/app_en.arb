@@ -1,0 +1,148 @@
+{
+  "appTitle": "Fresh Produce",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "rememberMe": "Remember Me",
+  "dontHaveAccount": "Don't have an account? Register",
+  "register": "Register",
+  "fullName": "Full Name",
+  "welcomeBack": "Welcome Back!",
+  "createAccount": "Create Account",
+  "activeRounds": "Active Rounds",
+  "myOrders": "My Orders",
+  "selectNeighborhood": "Select Neighborhood",
+  "confirmOrder": "Confirm Order",
+  "cancel": "Cancel",
+  "checkout": "Checkout",
+  "total": "Total",
+  "delivery": "Delivery",
+  "pickup": "Pickup",
+  "produceRounds": "Produce Rounds",
+  "all": "ALL",
+  "open": "OPEN",
+  "pricing": "PRICING",
+  "deliveryPhase": "DELIVERY",
+  "done": "DONE",
+  "logout": "Logout",
+  "noRoundsFound": "No rounds found.",
+  "noRoundsOpen": "No rounds open for orders yet.",
+  "noRoundsPricing": "No rounds in pricing phase.",
+  "noRoundsDelivery": "No rounds in delivery.",
+  "noHistoryFound": "No history found.",
+  "roundDetails": "Round Details",
+  "orderNo": "Order #",
+  "roundHash": "Round #",
+  "deadline": "Deadline: ",
+  "priceNotice": "Price Notice:",
+  "priceNoticeDetail": "Prices are estimates and may vary by ±15% based on wholesale market final purchase.",
+  "batchClosed": "Batch is Closed for Ordering",
+  "addItemsToStart": "Add items to start order",
+  "reviewOrderPayDeposit": "Review Order & Place",
+  "orderSummary": "Order Summary",
+  "orderItems": "Items",
+  "totalEstimated": "Total Estimated",
+  "homeDeliveryFee": "Home Delivery Fee",
+  "placeOrder": "Place Order",
+  "cashOnDeliveryNotice": "Cash on Delivery - Pay when you receive your order",
+  "amountDueOnDelivery": "Amount Due on Delivery:",
+  "kg": "kg",
+  "egp": "EGP",
+  "ends": "Ends:",
+  "targetLabel": "{amount}{unit} target",
+  "@targetLabel": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "leftLabel": "{amount}{unit} left",
+  "@leftLabel": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "moreItems": "+ {count} more items",
+  "@moreItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "roundStatusOpen": "OPEN",
+  "roundStatusLocked": "LOCKED",
+  "roundStatusFinished": "FINISHED",
+  "roundStatusDelivering": "DELIVERING",
+  "roundStatusDelivered": "DELIVERED",
+  "roundStatusCompleted": "COMPLETED",
+  "roundStatusCancelled": "CANCELLED",
+  "est": "Est. {price} {currency} / {unit}",
+  "@est": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "marketPrice": "Market Price: {price} {currency}",
+  "@marketPrice": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "percentageFilled": "{percentage}% filled",
+  "@percentageFilled": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "pleaseLoginToViewOrders": "Please login to view your orders.",
+  "noOrdersYet": "No orders yet.",
+  "placedOn": "Placed on: ",
+  "priceChangedNotice": "Price has changed. Please confirm if you want to proceed with this order.",
+  "reject": "Reject",
+  "confirm": "Confirm",
+  "welcomeTo": "Welcome to",
+  "chooseNeighborhoodNotice": "Choose your neighborhood to see active group-buying rounds in Cairo.",
+  "orderPlaced": "Order Placed!",
+  "orderSuccessDetail": "Your order has been placed successfully. You will be notified once the round closes and final prices are confirmed. Payment will be collected in cash on delivery.",
+  "backToHome": "Back to Home",
+  "statusPlaced": "Placed",
+  "statusAwaitingConfirmation": "Awaiting Confirmation",
+  "statusConfirmed": "Confirmed",
+  "statusRejected": "Rejected",
+  "statusPaid": "Paid",
+  "statusDelivered": "Delivered",
+  "statusCancelled": "Cancelled",
+  "error": "Error: {message}",
+  "@error": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  }
+}

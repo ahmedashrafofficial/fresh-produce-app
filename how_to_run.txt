@@ -1,0 +1,37 @@
+# 1. Clean previous build references to remove locks
+dotnet clean
+
+# 2. Build the implementation verification
+dotnet build FreshProduce.Api
+
+# 3. Apply the database patch for decimal precision
+dotnet ef migrations add FixDecimalPrecision --project FreshProduce.Infrastructure --startup-project FreshProduce.Api
+dotnet ef database update --project FreshProduce.Infrastructure --startup-project FreshProduce.Api
+
+# 4. Build and deploy the frontend
+cd fresh_produce_ui; flutter build web; Copy-Item -Path "build\web\*" -Destination "..\FreshProduce.Api\wwwroot" -Recurse -Force; cd ..
+cd fresh_produce_admin; flutter build web --base-href "/admin/"; Copy-Item -Path "build\web\*" -Destination "..\FreshProduce.Api\wwwroot\admin" -Recurse -Force; cd ..
+
+# 5. Run the backend
+dotnet run --project FreshProduce.Api --launch-profile http
+
+cd fresh_produce_ui
+flutter run -d chrome
+
+cd fresh_produce_admin
+flutter run -d chrome
+
+Links
+User App: http://localhost:5252/
+
+ahmedashrafofficial@gmail.com / 123456
+
+
+Admin App: http://localhost:5252/admin/
+
+admin@freshproduce.com / Admin123!
+
+
+flutter gen-l10n
+
+flutter clean; flutter pub get; flutter build web --base-href "/admin/"; Copy-Item -Path "build\web\*" -Destination "..\FreshProduce.Api\wwwroot\admin" -Recurse -Force

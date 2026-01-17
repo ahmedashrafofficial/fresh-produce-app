@@ -1,0 +1,18 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  FreshProduce.Domain -> D:\P.L\Flutter\fresh_produce_app\FreshProduce.Domain\bin\Debug\net9.0\FreshProduce.Domain.dll
+  FreshProduce.Application -> D:\P.L\Flutter\fresh_produce_app\FreshProduce.Application\bin\Debug\net9.0\FreshProduce.Application.dll
+  FreshProduce.Infrastructure -> D:\P.L\Flutter\fresh_produce_app\FreshProduce.Infrastructure\bin\Debug\net9.0\FreshProduce.Infrastructure.dll
+D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\Controllers\OrdersController.cs(35,32): error CS0246: The type or namespace name 'DynamicController' could not be found (are you missing a using directive or an assembly reference?) [D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\FreshProduce.Api.csproj]
+D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\Controllers\OrdersController.cs(35,95): error CS0246: The type or namespace name 'UserManager<>' could not be found (are you missing a using directive or an assembly reference?) [D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\FreshProduce.Api.csproj]
+D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\Controllers\OrdersController.cs(35,107): error CS0246: The type or namespace name 'ApplicationUser' could not be found (are you missing a using directive or an assembly reference?) [D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\FreshProduce.Api.csproj]
+
+Build FAILED.
+
+D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\Controllers\OrdersController.cs(35,32): error CS0246: The type or namespace name 'DynamicController' could not be found (are you missing a using directive or an assembly reference?) [D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\FreshProduce.Api.csproj]
+D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\Controllers\OrdersController.cs(35,95): error CS0246: The type or namespace name 'UserManager<>' could not be found (are you missing a using directive or an assembly reference?) [D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\FreshProduce.Api.csproj]
+D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\Controllers\OrdersController.cs(35,107): error CS0246: The type or namespace name 'ApplicationUser' could not be found (are you missing a using directive or an assembly reference?) [D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\FreshProduce.Api.csproj]
+    0 Warning(s)
+    3 Error(s)
+
+Time Elapsed 00:00:01.31

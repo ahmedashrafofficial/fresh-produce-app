@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/utils/extensions/order_status_extensions.dart';
+import '../../core/utils/extensions/round_status_extensions.dart';
 import '../../domain/entities/neighborhood.dart';
 import '../../domain/entities/order.dart';
+import '../../domain/entities/order_status.dart';
 import '../../domain/entities/round.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/admin_providers.dart';
@@ -41,7 +44,7 @@ class RoundDetailsScreen extends ConsumerWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  l10n.ordersManagement, // Or "Orders"
+                  l10n.ordersManagement,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
@@ -93,18 +96,14 @@ class RoundDetailsScreen extends ConsumerWidget {
               ? '${l10n.order} #${order.orderNumber}'
               : '${l10n.order} #${order.id.substring(0, 8)}',
         ),
-        subtitle: Text(
-          '${l10n.status}: ${_getOrderStatusLabel(l10n, order.status)}',
-        ),
+        subtitle: Text('${l10n.status}: ${order.status.getLabel(l10n)}'),
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'User: ${order.userName ?? 'Unknown'} (${order.userId})',
-                ), // Adding User ID as requested for "full details"
+                Text('User: ${order.userName ?? 'Unknown'} (${order.userId})'),
                 Text(
                   '${l10n.date}: ${DateFormat('yyyy-MM-dd HH:mm').format(order.orderDate)}',
                 ),
@@ -134,7 +133,7 @@ class RoundDetailsScreen extends ConsumerWidget {
                           .map(
                             (s) => DropdownMenuItem(
                               value: s,
-                              child: Text(_getOrderStatusLabel(l10n, s)),
+                              child: Text(s.getLabel(l10n)),
                             ),
                           )
                           .toList(),
@@ -170,7 +169,7 @@ class RoundDetailsScreen extends ConsumerWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
-            Text('${l10n.status}: ${_getRoundStatusLabel(l10n, round.status)}'),
+            Text('${l10n.status}: ${round.status.getLabel(l10n)}'),
             Text(
               '${l10n.startDate}: ${DateFormat('yyyy-MM-dd HH:mm').format(round.startDate)}',
             ),
@@ -184,45 +183,5 @@ class RoundDetailsScreen extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  String _getOrderStatusLabel(AppLocalizations l10n, OrderStatus status) {
-    switch (status) {
-      case OrderStatus.placed:
-        return l10n.statusPlaced;
-      case OrderStatus.awaitingConfirmation:
-        return l10n.statusAwaitingConfirmation;
-      case OrderStatus.confirmed:
-        return l10n.statusConfirmed;
-      case OrderStatus.rejected:
-        return l10n.statusRejected;
-      case OrderStatus.paid:
-        return l10n.statusPaid;
-      case OrderStatus.delivered:
-        return l10n.statusDelivered;
-      case OrderStatus.cancelled:
-        return l10n.statusCancelled;
-    }
-  }
-
-  String _getRoundStatusLabel(AppLocalizations l10n, RoundStatus status) {
-    switch (status) {
-      case RoundStatus.draft:
-        return l10n.roundStatusDraft;
-      case RoundStatus.open:
-        return l10n.roundStatusOpen;
-      case RoundStatus.locked:
-        return l10n.roundStatusLocked;
-      case RoundStatus.finished:
-        return l10n.roundStatusFinished;
-      case RoundStatus.delivering:
-        return l10n.roundStatusDelivering;
-      case RoundStatus.delivered:
-        return l10n.roundStatusDelivered;
-      case RoundStatus.completed:
-        return l10n.roundStatusCompleted;
-      case RoundStatus.cancelled:
-        return l10n.roundStatusCancelled;
-    }
   }
 }

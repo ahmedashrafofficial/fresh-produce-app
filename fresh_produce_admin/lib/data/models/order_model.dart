@@ -5,7 +5,7 @@ import 'product_model.dart';
 part 'order_model.freezed.dart';
 part 'order_model.g.dart';
 
-@freezed
+@Freezed()
 abstract class OrderItemModel with _$OrderItemModel {
   const factory OrderItemModel({
     required String id,
@@ -20,7 +20,7 @@ abstract class OrderItemModel with _$OrderItemModel {
       _$OrderItemModelFromJson(json);
 }
 
-@freezed
+@Freezed()
 abstract class OrderModel with _$OrderModel {
   const factory OrderModel({
     required String id,

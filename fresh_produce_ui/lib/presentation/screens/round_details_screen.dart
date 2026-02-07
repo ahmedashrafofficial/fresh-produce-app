@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../domain/entities/round.dart';
+import '../../core/utils/extensions/round_product_extensions.dart';
+import '../../core/utils/extensions/round_status_extensions.dart';
 import '../providers/ui_providers.dart';
 import '../widgets/product_tile.dart';
 
@@ -56,7 +57,7 @@ class RoundDetailsScreen extends ConsumerWidget {
                             border: Border.all(color: Colors.green.shade100),
                           ),
                           child: Text(
-                            _getStatusLabel(l10n, round.status).toUpperCase(),
+                            round.status.getLabel(l10n).toUpperCase(),
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
@@ -168,26 +169,5 @@ class RoundDetailsScreen extends ConsumerWidget {
         error: (e, s) => Center(child: Text(l10n.error(e.toString()))),
       ),
     );
-  }
-
-  String _getStatusLabel(AppLocalizations l10n, RoundStatus status) {
-    switch (status) {
-      case RoundStatus.open:
-        return l10n.roundStatusOpen;
-      case RoundStatus.locked:
-        return l10n.roundStatusLocked;
-      case RoundStatus.finished:
-        return l10n.roundStatusFinished;
-      case RoundStatus.delivering:
-        return l10n.roundStatusDelivering;
-      case RoundStatus.delivered:
-        return l10n.roundStatusDelivered;
-      case RoundStatus.completed:
-        return l10n.roundStatusCompleted;
-      case RoundStatus.cancelled:
-        return l10n.roundStatusCancelled;
-      default:
-        return status.name;
-    }
   }
 }

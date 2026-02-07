@@ -1,10 +1,15 @@
 import '../../domain/entities/neighborhood.dart';
 import '../../domain/entities/order.dart';
+import '../../domain/entities/order_item.dart';
+import '../../domain/entities/order_status.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/entities/round.dart';
+import '../../domain/entities/round_product.dart';
+import '../../domain/entities/round_status.dart';
 import '../../domain/repositories/repository_interface.dart';
 import '../data_sources/remote_data_source.dart';
 import '../models/order_model.dart';
+import '../models/requests/place_order_request_model.dart';
 import '../models/round_model.dart';
 
 class RepositoryImpl implements IRepository {
@@ -54,13 +59,22 @@ class RepositoryImpl implements IRepository {
     String? deliveryAddress,
     String? deliveryPhone,
   }) async {
-    await _remoteDataSource.placeOrder({
-      'roundId': roundId,
-      'items': items,
-      'deliveryType': deliveryType,
-      if (deliveryAddress != null) 'deliveryAddress': deliveryAddress,
-      if (deliveryPhone != null) 'deliveryPhone': deliveryPhone,
-    });
+    final requestModel = PlaceOrderRequestModel(
+      roundId: roundId,
+      items: items
+          .map(
+            (i) => OrderItemRequestModel(
+              productId: i['productId'] as String,
+              quantityKg: (i['quantityKg'] as num).toDouble(),
+            ),
+          )
+          .toList(),
+      deliveryType: deliveryType,
+      deliveryAddress: deliveryAddress,
+      deliveryPhone: deliveryPhone,
+    );
+
+    await _remoteDataSource.placeOrder(requestModel);
   }
 
   @override

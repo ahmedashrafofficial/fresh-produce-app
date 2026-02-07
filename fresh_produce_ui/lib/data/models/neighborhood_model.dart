@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'neighborhood_model.freezed.dart';
 part 'neighborhood_model.g.dart';
 
-@freezed
+@Freezed()
 abstract class NeighborhoodModel with _$NeighborhoodModel {
   const factory NeighborhoodModel({
     required String id,

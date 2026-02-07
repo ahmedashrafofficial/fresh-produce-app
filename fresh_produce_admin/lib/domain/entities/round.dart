@@ -1,8 +1,9 @@
-import 'product.dart';
+import 'round_product.dart';
+import 'round_status.dart';
 
 class Round {
   final String id;
-  final int roundNumber; // New friendly ID
+  final int roundNumber;
   final String neighborhoodId;
   final RoundStatus status;
   final DateTime startDate;
@@ -20,39 +21,4 @@ class Round {
     required this.totalTransportCost,
     required this.roundProducts,
   });
-}
-
-class RoundProduct {
-  final String id;
-  final String productId;
-  final Product? product;
-  double targetQuantityKg;
-  double accumulatedQuantityKg;
-  double estimatedWholesalePrice;
-  double? actualWholesalePrice;
-  double marginPerKg;
-  double operationalSharePerKg;
-
-  RoundProduct({
-    required this.id,
-    required this.productId,
-    this.product,
-    required this.targetQuantityKg,
-    required this.accumulatedQuantityKg,
-    required this.estimatedWholesalePrice,
-    this.actualWholesalePrice,
-    required this.marginPerKg,
-    required this.operationalSharePerKg,
-  });
-}
-
-enum RoundStatus {
-  draft,
-  open,
-  locked,
-  finished,
-  delivering,
-  delivered,
-  completed,
-  cancelled,
 }

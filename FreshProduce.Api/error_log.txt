@@ -1,0 +1,54 @@
+[2/7/2026 9:26:53 PM] EXCEPTION in PlaceOrder: DbUpdateException
+Message: An error occurred while saving the entity changes. See the inner exception for details.
+Stack trace:    at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at FreshProduce.Infrastructure.Persistence.Repositories.EFRepository`1.UpdateAsync(T entity) in D:\P.L\Flutter\fresh_produce_app\FreshProduce.Infrastructure\Persistence\Repositories\EFRepositories.cs:line 33
+   at FreshProduce.Application.Services.OrderService.PlaceOrderAsync(String userId, Guid roundId, List`1 items, DeliveryType deliveryType, String deliveryAddress, String deliveryPhone, String userName) in D:\P.L\Flutter\fresh_produce_app\FreshProduce.Application\Services\OrderService.cs:line 50
+   at FreshProduce.Api.Controllers.OrdersController.PlaceOrder(OrderPlacementRequest request) in D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\Controllers\OrdersController.cs:line 58
+Inner exception: Cannot update identity column 'RoundNumber'.
+
+[2/7/2026 9:34:01 PM] EXCEPTION in PlaceOrder: DbUpdateException
+Message: An error occurred while saving the entity changes. See the inner exception for details.
+Stack trace:    at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at FreshProduce.Infrastructure.Persistence.Repositories.EFRepository`1.UpdateAsync(T entity) in D:\P.L\Flutter\fresh_produce_app\FreshProduce.Infrastructure\Persistence\Repositories\EFRepositories.cs:line 33
+   at FreshProduce.Application.Services.OrderService.PlaceOrderAsync(String userId, Guid roundId, List`1 items, DeliveryType deliveryType, String deliveryAddress, String deliveryPhone, String userName) in D:\P.L\Flutter\fresh_produce_app\FreshProduce.Application\Services\OrderService.cs:line 39
+   at FreshProduce.Api.Controllers.OrdersController.PlaceOrder(OrderPlacementRequest request) in D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\Controllers\OrdersController.cs:line 58
+Inner exception: Cannot update identity column 'RoundNumber'.
+
+[2/7/2026 9:34:17 PM] EXCEPTION in PlaceOrder: DbUpdateException
+Message: An error occurred while saving the entity changes. See the inner exception for details.
+Stack trace:    at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at FreshProduce.Infrastructure.Persistence.Repositories.EFRepository`1.UpdateAsync(T entity) in D:\P.L\Flutter\fresh_produce_app\FreshProduce.Infrastructure\Persistence\Repositories\EFRepositories.cs:line 33
+   at FreshProduce.Application.Services.OrderService.PlaceOrderAsync(String userId, Guid roundId, List`1 items, DeliveryType deliveryType, String deliveryAddress, String deliveryPhone, String userName) in D:\P.L\Flutter\fresh_produce_app\FreshProduce.Application\Services\OrderService.cs:line 39
+   at FreshProduce.Api.Controllers.OrdersController.PlaceOrder(OrderPlacementRequest request) in D:\P.L\Flutter\fresh_produce_app\FreshProduce.Api\Controllers\OrdersController.cs:line 58
+Inner exception: Cannot update identity column 'RoundNumber'.
+

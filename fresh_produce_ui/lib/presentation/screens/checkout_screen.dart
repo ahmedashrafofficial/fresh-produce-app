@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/utils/extensions/round_product_extensions.dart';
 import '../providers/ui_providers.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {

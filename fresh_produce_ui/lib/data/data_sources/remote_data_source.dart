@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import '../../core/constants/api_endpoints.dart';
 import '../models/neighborhood_model.dart';
 import '../models/order_model.dart';
+import '../models/requests/place_order_request_model.dart';
 import '../models/round_model.dart';
 
 abstract class IRemoteDataSource {
@@ -11,7 +12,7 @@ abstract class IRemoteDataSource {
   Future<List<OrderModel>> getMyOrders();
   Future<List<NeighborhoodModel>> getNeighborhoods();
   Future<RoundModel> getRoundDetails(String roundId);
-  Future<OrderModel> placeOrder(Map<String, dynamic> orderData);
+  Future<OrderModel> placeOrder(PlaceOrderRequestModel request);
   Future<void> rejectOrder(String orderId);
 }
 
@@ -73,9 +74,22 @@ class RemoteDataSource implements IRemoteDataSource {
   }
 
   @override
-  Future<OrderModel> placeOrder(Map<String, dynamic> orderData) async {
-    final response = await _dio.post(ApiEndpoints.orders, data: orderData);
-    return OrderModel.fromJson(response.data);
+  Future<OrderModel> placeOrder(PlaceOrderRequestModel request) async {
+    final response = await _dio.post(
+      ApiEndpoints.orders,
+      data: request.toJson(),
+    );
+
+    if (response.statusCode != null &&
+        response.statusCode! >= 200 &&
+        response.statusCode! < 300) {
+      if (response.data is Map<String, dynamic>) {
+        return OrderModel.fromJson(response.data as Map<String, dynamic>);
+      }
+    }
+
+    // Handle error or unexpected format
+    throw Exception(response.data.toString());
   }
 
   @override

@@ -1,4 +1,5 @@
-import 'product.dart';
+import 'order_item.dart';
+import 'order_status.dart';
 import 'round.dart';
 
 class Order {
@@ -33,32 +34,4 @@ class Order {
     required this.deliveryFee,
     required this.items,
   });
-}
-
-class OrderItem {
-  final String id;
-  final String productId;
-  final Product? product;
-  final double quantityKg;
-  final double estimatedPricePerKg;
-  final double? finalPricePerKg;
-
-  OrderItem({
-    required this.id,
-    required this.productId,
-    this.product,
-    required this.quantityKg,
-    required this.estimatedPricePerKg,
-    this.finalPricePerKg,
-  });
-}
-
-enum OrderStatus {
-  placed,
-  awaitingConfirmation,
-  confirmed,
-  rejected,
-  paid,
-  delivered,
-  cancelled,
 }

@@ -6,7 +6,7 @@ import 'product_model.dart';
 part 'round_model.freezed.dart';
 part 'round_model.g.dart';
 
-@freezed
+@Freezed()
 abstract class RoundModel with _$RoundModel {
   const factory RoundModel({
     required String id,
@@ -26,7 +26,7 @@ abstract class RoundModel with _$RoundModel {
       _$RoundModelFromJson(json);
 }
 
-@freezed
+@Freezed()
 abstract class RoundProductModel with _$RoundProductModel {
   const factory RoundProductModel({
     required String id,

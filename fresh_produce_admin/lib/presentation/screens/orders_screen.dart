@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/utils/extensions/order_status_extensions.dart';
 import '../../domain/entities/order.dart';
+import '../../domain/entities/order_status.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/admin_providers.dart';
 
@@ -44,9 +46,7 @@ class OrdersScreen extends ConsumerWidget {
                   ? '${l10n.order} #${order.orderNumber}'
                   : '${l10n.order} #${order.id.substring(0, 8)}',
             ),
-            subtitle: Text(
-              '${l10n.status}: ${_getStatusLabel(l10n, order.status)}',
-            ),
+            subtitle: Text('${l10n.status}: ${order.status.getLabel(l10n)}'),
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -82,7 +82,7 @@ class OrdersScreen extends ConsumerWidget {
                               .map(
                                 (s) => DropdownMenuItem(
                                   value: s,
-                                  child: Text(_getStatusLabel(l10n, s)),
+                                  child: Text(s.getLabel(l10n)),
                                 ),
                               )
                               .toList(),
@@ -105,24 +105,5 @@ class OrdersScreen extends ConsumerWidget {
         );
       },
     );
-  }
-
-  String _getStatusLabel(AppLocalizations l10n, OrderStatus status) {
-    switch (status) {
-      case OrderStatus.placed:
-        return l10n.statusPlaced;
-      case OrderStatus.awaitingConfirmation:
-        return l10n.statusAwaitingConfirmation;
-      case OrderStatus.confirmed:
-        return l10n.statusConfirmed;
-      case OrderStatus.rejected:
-        return l10n.statusRejected;
-      case OrderStatus.paid:
-        return l10n.statusPaid;
-      case OrderStatus.delivered:
-        return l10n.statusDelivered;
-      case OrderStatus.cancelled:
-        return l10n.statusCancelled;
-    }
   }
 }

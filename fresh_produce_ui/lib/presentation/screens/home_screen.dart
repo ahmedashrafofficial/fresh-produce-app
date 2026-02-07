@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../domain/entities/round.dart';
+import '../../domain/entities/round_status.dart';
+import '../../l10n/app_localizations.dart';
 import '../providers/ui_providers.dart';
-import '../widgets/round_card.dart';
+import '../widgets/rounds_list_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -29,9 +29,11 @@ class HomeScreen extends ConsumerWidget {
               Tab(text: l10n.deliveryPhase),
               Tab(text: l10n.done),
             ],
-            indicatorColor: const Color(0xFF2D6A4F),
-            labelColor: const Color.fromARGB(255, 255, 255, 255),
-            unselectedLabelColor: Colors.grey,
+            indicatorColor: Theme.of(context).colorScheme.onPrimary,
+            labelColor: Theme.of(context).colorScheme.onPrimary,
+            unselectedLabelColor: Theme.of(
+              context,
+            ).colorScheme.onPrimary.withOpacity(0.7),
           ),
           actions: [
             IconButton(
@@ -41,7 +43,6 @@ class HomeScreen extends ConsumerWidget {
             IconButton(
               icon: Icon(
                 ref.watch(authProvider) != null ? Icons.person : Icons.login,
-                color: ref.watch(authProvider) != null ? Colors.white : null,
               ),
               onPressed: () {
                 if (ref.read(authProvider) != null) {
@@ -52,9 +53,9 @@ class HomeScreen extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ListTile(
-                            leading: const Icon(
+                            leading: Icon(
                               Icons.logout,
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.error,
                             ),
                             title: Text(l10n.logout),
                             onTap: () {
@@ -100,23 +101,23 @@ class HomeScreen extends ConsumerWidget {
 
             return TabBarView(
               children: [
-                _RoundsList(
+                RoundsListWidget(
                   rounds: allRounds,
                   emptyMessage: l10n.noRoundsFound,
                 ),
-                _RoundsList(
+                RoundsListWidget(
                   rounds: openRounds,
                   emptyMessage: l10n.noRoundsOpen,
                 ),
-                _RoundsList(
+                RoundsListWidget(
                   rounds: pricingRounds,
                   emptyMessage: l10n.noRoundsPricing,
                 ),
-                _RoundsList(
+                RoundsListWidget(
                   rounds: deliveryRounds,
                   emptyMessage: l10n.noRoundsDelivery,
                 ),
-                _RoundsList(
+                RoundsListWidget(
                   rounds: doneRounds,
                   emptyMessage: l10n.noHistoryFound,
                 ),
@@ -130,46 +131,8 @@ class HomeScreen extends ConsumerWidget {
           onPressed: () => context.push('/my-orders'),
           label: Text(l10n.myOrders),
           icon: const Icon(Icons.shopping_bag_outlined),
-          backgroundColor: const Color(0xFF2D6A4F),
         ),
       ),
-    );
-  }
-}
-
-class _RoundsList extends StatelessWidget {
-  final List<Round> rounds;
-  final String emptyMessage;
-
-  const _RoundsList({required this.rounds, required this.emptyMessage});
-
-  @override
-  Widget build(BuildContext context) {
-    if (rounds.isEmpty) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Text(
-            emptyMessage,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.grey),
-          ),
-        ),
-      );
-    }
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: rounds.length,
-      itemBuilder: (context, index) {
-        final round = rounds[index];
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: RoundCard(
-            round: round,
-            onTap: () => context.push('/round/${round.id}'),
-          ),
-        );
-      },
     );
   }
 }

@@ -4,8 +4,9 @@ import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import '../../domain/entities/order.dart';
+import '../../domain/entities/order_status.dart';
 import '../providers/ui_providers.dart';
+import '../widgets/status_chip.dart';
 
 class MyOrdersScreen extends ConsumerStatefulWidget {
   const MyOrdersScreen({super.key});
@@ -71,7 +72,7 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                _StatusChip(status: order.status),
+                                StatusChip(status: order.status),
                               ],
                             ),
                             const SizedBox(height: 8),
@@ -288,58 +289,5 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
     super.initState();
     // Refresh orders every time the screen is opened
     Future.microtask(() => ref.invalidate(myOrdersProvider));
-  }
-}
-
-class _StatusChip extends StatelessWidget {
-  final OrderStatus status;
-
-  const _StatusChip({required this.status});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    Color color;
-    String label;
-    switch (status) {
-      case OrderStatus.placed:
-        color = Colors.blue;
-        label = l10n.statusPlaced;
-        break;
-      case OrderStatus.awaitingConfirmation:
-        color = Colors.orange;
-        label = l10n.statusAwaitingConfirmation;
-        break;
-      case OrderStatus.confirmed:
-        color = Colors.cyan;
-        label = l10n.statusConfirmed;
-        break;
-      case OrderStatus.rejected:
-        color = Colors.redAccent;
-        label = l10n.statusRejected;
-        break;
-      case OrderStatus.paid:
-        color = const Color(0xFF2D6A4F);
-        label = l10n.statusPaid;
-        break;
-      case OrderStatus.delivered:
-        color = Colors.purple;
-        label = l10n.statusDelivered;
-        break;
-      case OrderStatus.cancelled:
-        color = Colors.grey;
-        label = l10n.statusCancelled;
-        break;
-    }
-
-    return Chip(
-      label: Text(
-        label.toUpperCase(),
-        style: const TextStyle(fontSize: 10, color: Colors.white),
-      ),
-      backgroundColor: color,
-      padding: EdgeInsets.zero,
-      visualDensity: VisualDensity.compact,
-    );
   }
 }

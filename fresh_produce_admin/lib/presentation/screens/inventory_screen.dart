@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../domain/entities/product.dart';
 import '../../l10n/app_localizations.dart';
@@ -16,18 +17,26 @@ class InventoryScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.inventory)),
       body: productsAsync.when(
-        data: (products) => ListView.builder(
+        data: (products) => ResponsiveGridView.builder(
+          padding: const EdgeInsets.all(16),
           itemCount: products.length,
+          gridDelegate: const ResponsiveGridDelegate(
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            maxCrossAxisExtent: 350,
+          ),
           itemBuilder: (context, index) {
             final p = products[index];
-            return ListTile(
-              title: Text(p.name),
-              subtitle: Text(
-                '${l10n.min} ${p.minInventoryAmount} ${p.unit} - ${l10n.wholesaleEgp} ${p.estimatedWholesalePrice ?? 0}',
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () => _showProductDialog(context, ref, p),
+            return Card(
+              child: ListTile(
+                title: Text(p.name),
+                subtitle: Text(
+                  '${l10n.min} ${p.minInventoryAmount} ${p.unit}\n${l10n.wholesaleEgp} ${p.estimatedWholesalePrice ?? 0}',
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () => _showProductDialog(context, ref, p),
+                ),
               ),
             );
           },

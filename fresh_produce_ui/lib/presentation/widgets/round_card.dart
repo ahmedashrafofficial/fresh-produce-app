@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/utils/extensions/round_product_extensions.dart';
+import '../../core/utils/extensions/round_status_extensions.dart';
 import '../../domain/entities/round.dart';
+import '../../l10n/app_localizations.dart';
 
 class RoundCard extends StatelessWidget {
   final Round round;
@@ -43,21 +45,23 @@ class RoundCard extends StatelessWidget {
                   const Spacer(),
                   Chip(
                     label: Text(
-                      _getStatusLabel(l10n, round.status).toUpperCase(),
+                      round.status.getLabel(l10n).toUpperCase(),
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                         color:
                             (round.status.index >= 2 && round.status.index <= 6)
-                            ? Colors.green.shade700
-                            : Colors.blue.shade700,
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.secondary,
                       ),
                     ),
                     visualDensity: VisualDensity.compact,
                     backgroundColor:
                         (round.status.index >= 2 && round.status.index <= 6)
-                        ? Colors.green.shade100
-                        : Colors.blue.shade100,
+                        ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                        : Theme.of(
+                            context,
+                          ).colorScheme.secondary.withOpacity(0.1),
                   ),
                 ],
               ),
@@ -92,24 +96,26 @@ class RoundCard extends StatelessWidget {
                                 children: [
                                   Text(
                                     '${p.product?.name ?? 'Product'} (${l10n.targetLabel(p.targetQuantityKg.toStringAsFixed(0), l10n.kg)})',
-                                    style: const TextStyle(fontSize: 12),
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall,
                                   ),
                                   Text(
                                     l10n.leftLabel(
                                       p.remainingKg.toStringAsFixed(0),
                                       l10n.kg,
                                     ),
-                                    style: const TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 4),
                               LinearProgressIndicator(
                                 value: p.progress,
-                                backgroundColor: Colors.grey.shade200,
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHighest,
                                 borderRadius: BorderRadius.circular(4),
                               ),
                             ],
@@ -131,26 +137,5 @@ class RoundCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _getStatusLabel(AppLocalizations l10n, RoundStatus status) {
-    switch (status) {
-      case RoundStatus.open:
-        return l10n.roundStatusOpen;
-      case RoundStatus.locked:
-        return l10n.roundStatusLocked;
-      case RoundStatus.finished:
-        return l10n.roundStatusFinished;
-      case RoundStatus.delivering:
-        return l10n.roundStatusDelivering;
-      case RoundStatus.delivered:
-        return l10n.roundStatusDelivered;
-      case RoundStatus.completed:
-        return l10n.roundStatusCompleted;
-      case RoundStatus.cancelled:
-        return l10n.roundStatusCancelled;
-      default:
-        return status.name;
-    }
   }
 }

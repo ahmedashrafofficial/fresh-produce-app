@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Security.Claims;
+using FreshProduce.Application;
 using FreshProduce.Application.Interfaces;
 using FreshProduce.Application.Services;
 using FreshProduce.Domain.Entities;
@@ -21,7 +22,7 @@ namespace FreshProduce.Api.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
 
         public OrdersController(
-            IOrderRepository orderRepository, 
+            IOrderRepository orderRepository,
             OrderService orderService,
             UserManager<ApplicationUser> userManager)
         {
@@ -31,33 +32,62 @@ namespace FreshProduce.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderRequest request)
+        public async Task<IActionResult> PlaceOrder([FromBody] OrderPlacementRequest request)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId)) return Unauthorized();
-
-            Console.WriteLine($"PlaceOrder requested by User: {userId}, Round: {request.RoundId}, Items: {request.Items.Count}");
-            
-            // Fetch User details for UserName
-            var user = await _userManager.FindByIdAsync(userId);
-            var userName = user?.FullName ?? user?.UserName ?? "Unknown";
-
             try
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+                Console.WriteLine($"PlaceOrder requested by User: {userId}, Round: {request?.RoundId}, Items: {request?.Items?.Count ?? 0}");
+
+                if (request == null)
+                {
+                    Console.WriteLine("ERROR: Request is null");
+                    return BadRequest("Request body is null");
+                }
+
+                // Fetch User details for UserName
+                var user = await _userManager.FindByIdAsync(userId);
+                var userName = user?.FullName ?? user?.UserName ?? "Unknown";
+
+                var orderItems = request.Items
+                    .Select(i => (ProductId: i.ProductId, QuantityKg: i.QuantityKg))
+                    .ToList();
+
                 var order = await _orderService.PlaceOrderAsync(
-                    userId, 
-                    request.RoundId, 
-                    request.Items.Select(i => (i.ProductId, i.QuantityKg)).ToList(), 
+                    userId,
+                    request.RoundId,
+                    orderItems,
                     request.DeliveryType,
                     request.DeliveryAddress,
                     request.DeliveryPhone,
                     userName); // Pass userName
-                
+
                 return Ok(MapToDto(order));
             }
             catch (InvalidOperationException ex)
             {
+                Console.WriteLine($"InvalidOperationException in PlaceOrder: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                var errorMsg = $"[{DateTime.Now}] EXCEPTION in PlaceOrder: {ex.GetType().Name}\nMessage: {ex.Message}\nStack trace: {ex.StackTrace}";
+                if (ex.InnerException != null)
+                {
+                    errorMsg += $"\nInner exception: {ex.InnerException.Message}";
+                }
+
+                try
+                {
+                    System.IO.File.AppendAllText("error_log.txt", errorMsg + "\n\n");
+                }
+                catch { /* Ignore logging errors */ }
+
+                Console.WriteLine(errorMsg);
+                return StatusCode(500, new { error = ex.Message, type = ex.GetType().Name });
             }
         }
 
@@ -68,10 +98,10 @@ namespace FreshProduce.Api.Controllers
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
             var orders = await _orderRepository.GetOrdersByUserIdAsync(userId);
-            
+
             // Map to DTOs to avoid serialization issues
             var dtos = orders.Select(MapToDto);
-            
+
             return Ok(dtos);
         }
 
@@ -158,10 +188,13 @@ namespace FreshProduce.Api.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            try {
+            try
+            {
                 await _orderService.ConfirmOrderAsync(id, userId);
                 return Ok();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
@@ -172,10 +205,13 @@ namespace FreshProduce.Api.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            try {
+            try
+            {
                 await _orderService.RejectOrderAsync(id, userId);
                 return Ok();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
@@ -184,10 +220,13 @@ namespace FreshProduce.Api.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CancelOrder(Guid id)
         {
-            try {
+            try
+            {
                 await _orderService.CancelOrderAsync(id);
                 return Ok();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
@@ -196,29 +235,19 @@ namespace FreshProduce.Api.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromQuery] OrderStatus status)
         {
-            try {
+            try
+            {
                 await _orderService.UpdateStatusAsync(id, status);
                 return Ok();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
     }
 
-    public class PlaceOrderRequest
-    {
-        public Guid RoundId { get; set; }
-        public List<OrderItemRequest> Items { get; set; } = new List<OrderItemRequest>();
-        public DeliveryType DeliveryType { get; set; }
-        public string? DeliveryAddress { get; set; }
-        public string? DeliveryPhone { get; set; }
-    }
 
-    public class OrderItemRequest
-    {
-        public Guid ProductId { get; set; }
-        public decimal QuantityKg { get; set; }
-    }
 
     // DTOs for response
     public class OrderDto

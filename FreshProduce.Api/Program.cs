@@ -16,6 +16,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
     });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -23,11 +24,11 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "FreshProduce API", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        In = ParameterLocation.Header,
-        Description = "Please insert JWT with Bearer into field",
+        Description = "JWT Authorization header using the Bearer scheme. Enter your token in the text input below.",
         Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer"
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement {
     {
@@ -39,7 +40,7 @@ builder.Services.AddSwaggerGen(c =>
                 Id = "Bearer"
             }
         },
-        new string[] { }
+        Array.Empty<string>()
     }
     });
 });
@@ -113,7 +114,7 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<FreshProduceDbContext>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     DbInitializer.Initialize(context);
-    
+
     // Seed Roles only (users register themselves)
     string[] roles = { "Admin", "User" };
     foreach (var role in roles)

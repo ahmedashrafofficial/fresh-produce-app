@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 
-import '../../domain/entities/round.dart';
+import '../../core/utils/extensions/round_product_extensions.dart';
+import '../../domain/entities/round_product.dart';
 import '../providers/ui_providers.dart';
 
 class ProductTile extends ConsumerWidget {

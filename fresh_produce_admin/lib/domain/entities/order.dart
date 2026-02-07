@@ -1,8 +1,11 @@
+import 'order_item.dart';
+import 'order_status.dart';
+
 class Order {
   final String id;
-  final int orderNumber; // New friendly ID
+  final int orderNumber;
   final String userId;
-  final String? userName; // New User Name
+  final String? userName;
   final String roundId;
   final OrderStatus status;
   final DateTime orderDate;
@@ -20,30 +23,4 @@ class Order {
     required this.totalEstimatedAmount,
     required this.items,
   });
-}
-
-class OrderItem {
-  final String id;
-  final String productId;
-  final String? productName; // Product Name from backend
-  final double quantityKg;
-  final double estimatedPricePerKg;
-
-  OrderItem({
-    required this.id,
-    required this.productId,
-    this.productName,
-    required this.quantityKg,
-    required this.estimatedPricePerKg,
-  });
-}
-
-enum OrderStatus {
-  placed,
-  awaitingConfirmation,
-  confirmed,
-  rejected,
-  paid,
-  delivered,
-  cancelled,
 }

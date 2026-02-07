@@ -4,6 +4,7 @@ import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/constants/api_endpoints.dart';
+import '../../data/models/auth_model.dart';
 import '../providers/ui_providers.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -105,13 +106,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       );
 
       final data = response.data;
-      final authData = AuthData(
+      final authModel = AuthModel(
         token: data['token'],
         refreshToken: data['refreshToken'] ?? '',
         userId: data['user']['id'],
       );
 
-      await ref.read(authProvider.notifier).login(authData);
+      await ref.read(authProvider.notifier).login(authModel);
       if (mounted) context.go('/');
     } catch (e) {
       if (mounted) {

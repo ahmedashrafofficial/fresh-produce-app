@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants/round_sort_option.dart';
+import '../../core/utils/extensions/round_status_extensions.dart';
 import '../../domain/entities/neighborhood.dart';
 import '../../domain/entities/round.dart';
+import '../../domain/entities/round_product.dart';
+import '../../domain/entities/round_status.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/admin_providers.dart';
 import '../providers/auth_provider.dart';
 import 'round_details_screen.dart';
-
-enum RoundSortOption { startDate, endDate, region }
 
 class RoundsScreen extends ConsumerStatefulWidget {
   const RoundsScreen({super.key});
@@ -33,7 +35,7 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
           title: Text(l10n.roundsManagement),
           actions: [
             IconButton(
-              icon: const Icon(Icons.logout, color: Colors.black),
+              icon: const Icon(Icons.logout),
               tooltip: 'Logout',
               onPressed: () {
                 ref.read(adminAuthProvider.notifier).logout();
@@ -60,9 +62,9 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: DropdownButton<RoundSortOption>(
                     value: _selectedSortOption,
-                    icon: const Icon(Icons.sort, color: Colors.black),
-                    dropdownColor: Theme.of(context).primaryColor,
-                    style: const TextStyle(color: Colors.black),
+                    icon: const Icon(Icons.sort),
+                    dropdownColor: Theme.of(context).colorScheme.surface,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     items: [
                       DropdownMenuItem(
                         value: RoundSortOption.startDate,
@@ -93,15 +95,12 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
         body: roundsAsync.when(
           data: (originalRounds) => neighborhoodsAsync.when(
             data: (neighborhoods) {
-              // Create a mutable list to sort
               List<Round> rounds = List.from(originalRounds);
 
               rounds.sort((a, b) {
                 switch (_selectedSortOption) {
                   case RoundSortOption.startDate:
-                    return b.startDate.compareTo(
-                      a.startDate,
-                    ); // Use descending for dates usually
+                    return b.startDate.compareTo(a.startDate);
                   case RoundSortOption.endDate:
                     return b.endDate.compareTo(a.endDate);
                   case RoundSortOption.region:
@@ -211,9 +210,7 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                   ? '${l10n.roundPrefix} #${r.roundNumber} - ${neighborhood.name}'
                   : '${l10n.roundPrefix}${r.id.substring(0, 8).toUpperCase()} - ${neighborhood.name}',
             ),
-            subtitle: Text(
-              '${l10n.status}: ${_getStatusLabel(l10n, r.status)}',
-            ),
+            subtitle: Text('${l10n.status}: ${r.status.getLabel(l10n)}'),
             trailing: IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () => _showRoundDialog(context, ref, r),
@@ -222,27 +219,6 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
         );
       },
     );
-  }
-
-  String _getStatusLabel(AppLocalizations l10n, RoundStatus status) {
-    switch (status) {
-      case RoundStatus.draft:
-        return l10n.roundStatusDraft;
-      case RoundStatus.open:
-        return l10n.roundStatusOpen;
-      case RoundStatus.locked:
-        return l10n.roundStatusLocked;
-      case RoundStatus.finished:
-        return l10n.roundStatusFinished;
-      case RoundStatus.delivering:
-        return l10n.roundStatusDelivering;
-      case RoundStatus.delivered:
-        return l10n.roundStatusDelivered;
-      case RoundStatus.completed:
-        return l10n.roundStatusCompleted;
-      case RoundStatus.cancelled:
-        return l10n.roundStatusCancelled;
-    }
   }
 
   void _showRoundDialog(
@@ -261,21 +237,17 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
       text: (round?.totalTransportCost ?? 100).toString(),
     );
 
-    // Fetch all products and neighborhoods
     final allProducts = await ref.read(productsProvider.future);
     final neighborhoods = await ref
         .read(adminRepositoryProvider)
         .getNeighborhoods();
 
-    // Create a local map to edit round products: ProductId -> RoundProduct
     final Map<String, RoundProduct> editingProducts = {};
     if (round != null) {
       for (var rp in round.roundProducts) {
         editingProducts[rp.productId] = rp;
       }
     } else {
-      // For new round, maybe pre-populate with all products or let user add
-      // Let's pre-populate with 0 target
       for (var p in allProducts) {
         editingProducts[p.id] = RoundProduct(
           id: '',
@@ -374,7 +346,7 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                     },
                   ),
                   DropdownButtonFormField<String>(
-                    initialValue: selectedNeighborhoodId,
+                    value: selectedNeighborhoodId,
                     decoration: InputDecoration(labelText: l10n.neighborhood),
                     items: neighborhoods.map((n) {
                       return DropdownMenuItem(value: n.id, child: Text(n.name));
@@ -386,12 +358,12 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                     },
                   ),
                   DropdownButtonFormField<RoundStatus>(
-                    initialValue: selectedStatus,
+                    value: selectedStatus,
                     decoration: InputDecoration(labelText: l10n.status),
                     items: RoundStatus.values.map((status) {
                       return DropdownMenuItem(
                         value: status,
-                        child: Text(_getStatusLabel(l10n, status)),
+                        child: Text(status.getLabel(l10n)),
                       );
                     }).toList(),
                     onChanged: (value) {
@@ -546,7 +518,6 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  // Validate neighborhood selection
                   if (selectedNeighborhoodId == null ||
                       selectedNeighborhoodId!.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -557,7 +528,6 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                     return;
                   }
 
-                  // Filter products to only include those with target quantity > 0
                   final filteredProducts = editingProducts.values
                       .where((rp) => rp.targetQuantityKg > 0)
                       .toList();
@@ -574,10 +544,8 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                   }
 
                   final newRound = Round(
-                    id: round?.id ?? '', // Empty string for new rounds
-                    roundNumber:
-                        round?.roundNumber ??
-                        0, // 0 for new rounds (backend assigns)
+                    id: round?.id ?? '',
+                    roundNumber: round?.roundNumber ?? 0,
                     neighborhoodId: selectedNeighborhoodId!,
                     status: selectedStatus,
                     startDate: selectedStartDate,

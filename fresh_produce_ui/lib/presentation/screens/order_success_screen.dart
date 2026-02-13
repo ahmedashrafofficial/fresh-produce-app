@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/constants/app_colors.dart';
+
 class OrderSuccessScreen extends StatelessWidget {
   const OrderSuccessScreen({super.key});
 
@@ -17,7 +19,7 @@ class OrderSuccessScreen extends StatelessWidget {
             children: [
               const Icon(
                 Icons.check_circle_outline,
-                color: Color(0xFF2D6A4F),
+                color: AppColors.primary,
                 size: 100,
               ),
               const SizedBox(height: 24),
@@ -25,14 +27,14 @@ class OrderSuccessScreen extends StatelessWidget {
                 l10n.orderPlaced,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xFF2D6A4F),
+                  color: AppColors.primary,
                 ),
               ),
               const SizedBox(height: 16),
               Text(
                 l10n.orderSuccessDetail,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.grey),
+                style: const TextStyle(color: AppColors.grey),
               ),
               const SizedBox(height: 40),
               ElevatedButton(

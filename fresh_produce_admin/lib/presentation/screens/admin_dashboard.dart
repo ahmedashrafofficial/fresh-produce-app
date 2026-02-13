@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_dimensions.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 import 'inventory_screen.dart';
@@ -48,7 +50,7 @@ class _AdminDashboardState extends ConsumerState<AdminDashboard> {
           title: Text(l10n.adminPanel),
           actions: [
             IconButton(
-              icon: const Icon(Icons.logout, color: Colors.red),
+              icon: const Icon(Icons.logout, color: AppColors.error),
               onPressed: () => ref.read(adminAuthProvider.notifier).logout(),
             ),
           ],
@@ -66,9 +68,11 @@ class _AdminDashboardState extends ConsumerState<AdminDashboard> {
             },
             labelType: NavigationRailLabelType.all,
             leading: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
+              padding: const EdgeInsets.symmetric(
+                vertical: AppDimensions.paddingL,
+              ),
               child: IconButton(
-                icon: const Icon(Icons.logout, color: Colors.red),
+                icon: const Icon(Icons.logout, color: AppColors.error),
                 onPressed: () => ref.read(adminAuthProvider.notifier).logout(),
               ),
             ),
@@ -87,7 +91,10 @@ class _AdminDashboardState extends ConsumerState<AdminDashboard> {
               ),
             ],
           ),
-          const VerticalDivider(thickness: 1, width: 1),
+          const VerticalDivider(
+            thickness: AppDimensions.strokeS,
+            width: AppDimensions.strokeS,
+          ),
           Expanded(child: _buildPage()),
         ],
       ),

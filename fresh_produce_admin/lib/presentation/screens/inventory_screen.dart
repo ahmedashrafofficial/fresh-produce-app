@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../core/constants/app_dimensions.dart';
 import '../../domain/entities/product.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/admin_providers.dart';
@@ -18,12 +19,12 @@ class InventoryScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(l10n.inventory)),
       body: productsAsync.when(
         data: (products) => ResponsiveGridView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppDimensions.paddingM),
           itemCount: products.length,
           gridDelegate: const ResponsiveGridDelegate(
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            maxCrossAxisExtent: 350,
+            crossAxisSpacing: AppDimensions.spaceM,
+            mainAxisSpacing: AppDimensions.spaceM,
+            maxCrossAxisExtent: AppDimensions.gridMaxExtent,
           ),
           itemBuilder: (context, index) {
             final p = products[index];

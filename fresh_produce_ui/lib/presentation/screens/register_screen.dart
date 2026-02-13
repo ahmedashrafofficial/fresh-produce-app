@@ -4,6 +4,7 @@ import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/constants/api_endpoints.dart';
+import '../../core/constants/app_colors.dart';
 import '../providers/ui_providers.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -92,11 +93,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   minimumSize: const Size(double.infinity, 56),
                 ),
                 child: _isLoading
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 24,
                         width: 24,
                         child: CircularProgressIndicator(
-                          color: Colors.white,
+                          color: AppColors.white,
                           strokeWidth: 2,
                         ),
                       )

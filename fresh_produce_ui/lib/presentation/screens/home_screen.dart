@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/responsive_utils.dart';
 import '../../domain/entities/round_status.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/ui_providers.dart';
@@ -33,16 +35,20 @@ class HomeScreen extends ConsumerWidget {
             labelColor: Theme.of(context).colorScheme.onPrimary,
             unselectedLabelColor: Theme.of(
               context,
-            ).colorScheme.onPrimary.withOpacity(0.7),
+            ).colorScheme.onPrimary.withValues(alpha: 0.7),
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.location_on_outlined),
+              icon: Icon(
+                Icons.location_on_outlined,
+                size: ResponsiveUtils.iconSize(context, 24),
+              ),
               onPressed: () => context.go('/select-neighborhood'),
             ),
             IconButton(
               icon: Icon(
                 ref.watch(authProvider) != null ? Icons.person : Icons.login,
+                size: ResponsiveUtils.iconSize(context, 24),
               ),
               onPressed: () {
                 if (ref.read(authProvider) != null) {
@@ -56,8 +62,12 @@ class HomeScreen extends ConsumerWidget {
                             leading: Icon(
                               Icons.logout,
                               color: Theme.of(context).colorScheme.error,
+                              size: ResponsiveUtils.iconSize(context, 24),
                             ),
-                            title: Text(l10n.logout),
+                            title: Text(
+                              l10n.logout,
+                              style: AppTextStyles.responsiveBodyLarge(context),
+                            ),
                             onTap: () {
                               ref.read(authProvider.notifier).logout();
                               Navigator.pop(context);
@@ -129,8 +139,14 @@ class HomeScreen extends ConsumerWidget {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => context.push('/my-orders'),
-          label: Text(l10n.myOrders),
-          icon: const Icon(Icons.shopping_bag_outlined),
+          label: Text(
+            l10n.myOrders,
+            style: AppTextStyles.responsiveLabel(context),
+          ),
+          icon: Icon(
+            Icons.shopping_bag_outlined,
+            size: ResponsiveUtils.iconSize(context, 24),
+          ),
         ),
       ),
     );

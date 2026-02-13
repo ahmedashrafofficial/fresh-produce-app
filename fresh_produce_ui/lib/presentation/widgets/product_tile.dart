@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 
+import '../../core/constants/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/extensions/round_product_extensions.dart';
+import '../../core/utils/responsive_utils.dart';
 import '../../domain/entities/round_product.dart';
 import '../providers/ui_providers.dart';
 
@@ -18,17 +21,19 @@ class ProductTile extends ConsumerWidget {
     final quantity = cart[roundProduct.productId] ?? 0.0;
 
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: ResponsiveUtils.padding(context, 12)),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.all(ResponsiveUtils.padding(context, 12)),
         child: Row(
           children: [
             Container(
-              width: 80,
-              height: 80,
+              width: ResponsiveUtils.width(context, 80),
+              height: ResponsiveUtils.height(context, 80),
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12),
+                color: AppColors.grey.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(
+                  ResponsiveUtils.radius(context, 12),
+                ),
                 image: roundProduct.product?.imageUrl != null
                     ? DecorationImage(
                         image: NetworkImage(roundProduct.product!.imageUrl!),
@@ -37,19 +42,23 @@ class ProductTile extends ConsumerWidget {
                     : null,
               ),
               child: roundProduct.product?.imageUrl == null
-                  ? const Icon(Icons.eco, color: Color(0xFF2D6A4F), size: 40)
+                  ? Icon(
+                      Icons.eco,
+                      color: AppColors.primary,
+                      size: ResponsiveUtils.iconSize(context, 40),
+                    )
                   : null,
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: ResponsiveUtils.width(context, 16)),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     roundProduct.product?.name ?? 'Product',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: AppTextStyles.responsiveH3(
+                      context,
+                    ).copyWith(fontWeight: FontWeight.bold),
                   ),
                   if (roundProduct.actualCustomerPrice == null ||
                       roundProduct.actualCustomerPrice !=
@@ -60,15 +69,16 @@ class ProductTile extends ConsumerWidget {
                         l10n.egp,
                         roundProduct.product?.unit ?? l10n.kg,
                       ),
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        decoration: roundProduct.actualCustomerPrice != null
-                            ? TextDecoration.lineThrough
-                            : null,
-                        fontSize: roundProduct.actualCustomerPrice != null
-                            ? 11
-                            : 14,
-                      ),
+                      style: AppTextStyles.responsiveBodyMedium(context)
+                          .copyWith(
+                            color: AppColors.textSecondaryLight,
+                            decoration: roundProduct.actualCustomerPrice != null
+                                ? TextDecoration.lineThrough
+                                : null,
+                            fontSize: roundProduct.actualCustomerPrice != null
+                                ? ResponsiveUtils.fontSize(context, 11)
+                                : ResponsiveUtils.fontSize(context, 14),
+                          ),
                     ),
                   if (roundProduct.actualCustomerPrice != null)
                     Text(
@@ -76,20 +86,21 @@ class ProductTile extends ConsumerWidget {
                         roundProduct.actualCustomerPrice!.toStringAsFixed(2),
                         l10n.egp,
                       ),
-                      style: const TextStyle(
-                        color: Color(0xFF2D6A4F),
+                      style: AppTextStyles.responsiveLabel(context).copyWith(
+                        color: AppColors.primary,
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
                       ),
                     ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: ResponsiveUtils.height(context, 8)),
                   LinearProgressIndicator(
                     value: roundProduct.progress,
-                    backgroundColor: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(4),
-                    minHeight: 6,
+                    backgroundColor: AppColors.grey.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(
+                      ResponsiveUtils.radius(context, 4),
+                    ),
+                    minHeight: ResponsiveUtils.height(context, 6),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: ResponsiveUtils.height(context, 4)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -97,21 +108,20 @@ class ProductTile extends ConsumerWidget {
                         l10n.percentageFilled(
                           (roundProduct.progress * 100).toInt(),
                         ),
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.grey,
-                        ),
+                        style: AppTextStyles.responsiveBodySmall(
+                          context,
+                        ).copyWith(color: AppColors.grey),
                       ),
                       Text(
                         l10n.leftLabel(
                           roundProduct.remainingKg.toStringAsFixed(1),
                           l10n.kg,
                         ),
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF2D6A4F),
-                        ),
+                        style: AppTextStyles.responsiveBodySmall(context)
+                            .copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primary,
+                            ),
                       ),
                     ],
                   ),
@@ -123,9 +133,10 @@ class ProductTile extends ConsumerWidget {
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.remove_circle_outline,
-                        color: Color(0xFF2D6A4F),
+                        color: AppColors.primary,
+                        size: ResponsiveUtils.iconSize(context, 24),
                       ),
                       onPressed: quantity > 0
                           ? () => ref
@@ -135,12 +146,15 @@ class ProductTile extends ConsumerWidget {
                     ),
                     Text(
                       '${quantity.toInt()}',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: AppTextStyles.responsiveBodyMedium(
+                        context,
+                      ).copyWith(fontWeight: FontWeight.bold),
                     ),
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.add_circle_outline,
-                        color: Color(0xFF2D6A4F),
+                        color: AppColors.primary,
+                        size: ResponsiveUtils.iconSize(context, 24),
                       ),
                       onPressed: () => ref
                           .read(cartProvider.notifier)
@@ -150,7 +164,9 @@ class ProductTile extends ConsumerWidget {
                 ),
                 Text(
                   roundProduct.product?.unit ?? l10n.kg,
-                  style: const TextStyle(fontSize: 10, color: Colors.grey),
+                  style: AppTextStyles.responsiveBodySmall(
+                    context,
+                  ).copyWith(color: AppColors.grey),
                 ),
               ],
             ),

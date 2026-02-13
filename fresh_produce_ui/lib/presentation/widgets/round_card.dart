@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/constants/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/extensions/round_product_extensions.dart';
 import '../../core/utils/extensions/round_status_extensions.dart';
+import '../../core/utils/responsive_utils.dart';
 import '../../domain/entities/round.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -25,19 +28,22 @@ class RoundCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.symmetric(
+                horizontal: ResponsiveUtils.padding(context, 16),
+                vertical: ResponsiveUtils.padding(context, 8),
+              ),
               color: Theme.of(context).colorScheme.primaryContainer,
               child: Row(
                 children: [
                   Icon(
                     Icons.timer_outlined,
-                    size: 16,
+                    size: ResponsiveUtils.iconSize(context, 16),
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: ResponsiveUtils.width(context, 8)),
                   Text(
                     '${l10n.ends} $endDateStr',
-                    style: TextStyle(
+                    style: AppTextStyles.responsiveBodySmall(context).copyWith(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -46,28 +52,32 @@ class RoundCard extends StatelessWidget {
                   Chip(
                     label: Text(
                       round.status.getLabel(l10n).toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color:
-                            (round.status.index >= 2 && round.status.index <= 6)
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.secondary,
-                      ),
+                      style: AppTextStyles.responsiveBodySmall(context)
+                          .copyWith(
+                            fontSize: ResponsiveUtils.fontSize(context, 10),
+                            fontWeight: FontWeight.bold,
+                            color:
+                                (round.status.index >= 2 &&
+                                    round.status.index <= 6)
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).colorScheme.secondary,
+                          ),
                     ),
                     visualDensity: VisualDensity.compact,
                     backgroundColor:
                         (round.status.index >= 2 && round.status.index <= 6)
-                        ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                        ? Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.1)
                         : Theme.of(
                             context,
-                          ).colorScheme.secondary.withOpacity(0.1),
+                          ).colorScheme.secondary.withValues(alpha: 0.1),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(ResponsiveUtils.padding(context, 16)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -75,18 +85,20 @@ class RoundCard extends StatelessWidget {
                     round.roundNumber > 0
                         ? '${l10n.roundHash}${round.roundNumber}'
                         : '${l10n.roundHash}${round.id.substring(0, 8).toUpperCase()}',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: AppTextStyles.responsiveH3(
+                      context,
+                    ).copyWith(fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: ResponsiveUtils.height(context, 8)),
                   const Divider(),
-                  const SizedBox(height: 8),
+                  SizedBox(height: ResponsiveUtils.height(context, 8)),
                   ...round.products
                       .take(2)
                       .map(
                         (p) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
+                          padding: EdgeInsets.only(
+                            bottom: ResponsiveUtils.padding(context, 8),
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -96,27 +108,32 @@ class RoundCard extends StatelessWidget {
                                 children: [
                                   Text(
                                     '${p.product?.name ?? 'Product'} (${l10n.targetLabel(p.targetQuantityKg.toStringAsFixed(0), l10n.kg)})',
-                                    style: Theme.of(
+                                    style: AppTextStyles.responsiveBodySmall(
                                       context,
-                                    ).textTheme.bodySmall,
+                                    ),
                                   ),
                                   Text(
                                     l10n.leftLabel(
                                       p.remainingKg.toStringAsFixed(0),
                                       l10n.kg,
                                     ),
-                                    style: Theme.of(context).textTheme.bodySmall
-                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                    style: AppTextStyles.responsiveBodySmall(
+                                      context,
+                                    ).copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(
+                                height: ResponsiveUtils.height(context, 4),
+                              ),
                               LinearProgressIndicator(
                                 value: p.progress,
                                 backgroundColor: Theme.of(
                                   context,
                                 ).colorScheme.surfaceContainerHighest,
-                                borderRadius: BorderRadius.circular(4),
+                                borderRadius: BorderRadius.circular(
+                                  ResponsiveUtils.radius(context, 4),
+                                ),
                               ),
                             ],
                           ),
@@ -125,10 +142,11 @@ class RoundCard extends StatelessWidget {
                   if (round.products.length > 2)
                     Text(
                       l10n.moreItems(round.products.length - 2),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontStyle: FontStyle.italic,
-                      ),
+                      style: AppTextStyles.responsiveBodySmall(context)
+                          .copyWith(
+                            color: AppColors.grey,
+                            fontStyle: FontStyle.italic,
+                          ),
                     ),
                 ],
               ),

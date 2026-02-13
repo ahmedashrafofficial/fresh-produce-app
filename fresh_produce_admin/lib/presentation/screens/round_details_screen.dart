@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/constants/app_dimensions.dart';
 import '../../core/utils/extensions/order_status_extensions.dart';
 import '../../core/utils/extensions/round_status_extensions.dart';
 import '../../domain/entities/neighborhood.dart';
@@ -40,7 +41,7 @@ class RoundDetailsScreen extends ConsumerWidget {
             _buildRoundInfoCard(context, l10n),
             const Divider(),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppDimensions.paddingM),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -89,7 +90,10 @@ class RoundDetailsScreen extends ConsumerWidget {
     AppLocalizations l10n,
   ) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppDimensions.paddingM,
+        vertical: AppDimensions.paddingS,
+      ),
       child: ExpansionTile(
         title: Text(
           order.orderNumber > 0
@@ -99,7 +103,7 @@ class RoundDetailsScreen extends ConsumerWidget {
         subtitle: Text('${l10n.status}: ${order.status.getLabel(l10n)}'),
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppDimensions.paddingM),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -117,13 +121,15 @@ class RoundDetailsScreen extends ConsumerWidget {
                 ),
                 ...order.items.map(
                   (item) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppDimensions.paddingXS,
+                    ),
                     child: Text(
                       '${item.productName ?? item.productId}: ${item.quantityKg} ${l10n.kg}',
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppDimensions.spaceM),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -158,9 +164,9 @@ class RoundDetailsScreen extends ConsumerWidget {
 
   Widget _buildRoundInfoCard(BuildContext context, AppLocalizations l10n) {
     return Card(
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.all(AppDimensions.paddingM),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppDimensions.paddingM),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -168,7 +174,7 @@ class RoundDetailsScreen extends ConsumerWidget {
               neighborhood.name,
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppDimensions.spaceS),
             Text('${l10n.status}: ${round.status.getLabel(l10n)}'),
             Text(
               '${l10n.startDate}: ${DateFormat('yyyy-MM-dd HH:mm').format(round.startDate)}',

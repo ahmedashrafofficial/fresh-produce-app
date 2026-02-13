@@ -4,6 +4,7 @@ import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/constants/app_colors.dart';
 import '../../domain/entities/order_status.dart';
 import '../providers/ui_providers.dart';
 import '../widgets/status_chip.dart';
@@ -79,7 +80,7 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                             Text(
                               '${l10n.placedOn}$dateStr',
                               style: const TextStyle(
-                                color: Colors.grey,
+                                color: AppColors.grey,
                                 fontSize: 12,
                               ),
                             ),
@@ -89,8 +90,15 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                               Container(
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color: Colors.grey.shade50,
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.05,
+                                  ),
                                   borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.1,
+                                    ),
+                                  ),
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,6 +108,7 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 13,
+                                        color: AppColors.primary,
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -154,14 +163,14 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                                           decoration:
                                               TextDecoration.lineThrough,
                                           fontSize: 12,
-                                          color: Colors.grey,
+                                          color: AppColors.grey,
                                         ),
                                       ),
                                       Text(
                                         '${order.finalAmount!.toStringAsFixed(2)} ${l10n.egp}',
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFF2D6A4F),
+                                          color: AppColors.primary,
                                         ),
                                       ),
                                     ],
@@ -184,7 +193,7 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                                 l10n.priceChangedNotice,
                                 style: const TextStyle(
                                   fontSize: 12,
-                                  color: Colors.orange,
+                                  color: AppColors.warning,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -200,7 +209,7 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                                         ref.invalidate(myOrdersProvider);
                                       },
                                       style: OutlinedButton.styleFrom(
-                                        foregroundColor: Colors.red,
+                                        foregroundColor: AppColors.error,
                                       ),
                                       child: Text(l10n.reject),
                                     ),
@@ -215,10 +224,8 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                                         ref.invalidate(myOrdersProvider);
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(
-                                          0xFF2D6A4F,
-                                        ),
-                                        foregroundColor: Colors.white,
+                                        backgroundColor: AppColors.primary,
+                                        foregroundColor: AppColors.white,
                                       ),
                                       child: Text(l10n.confirm),
                                     ),
@@ -232,9 +239,9 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                               Container(
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color: const Color(
-                                    0xFF2D6A4F,
-                                  ).withValues(alpha: 0.1),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.1,
+                                  ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Row(
@@ -253,7 +260,7 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                                             l10n.amountDueOnDelivery,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              color: Color(0xFF2D6A4F),
+                                              color: AppColors.primary,
                                             ),
                                           ),
                                           Text(
@@ -261,7 +268,7 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                                             style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
-                                              color: Color(0xFF2D6A4F),
+                                              color: AppColors.primary,
                                             ),
                                           ),
                                         ],
@@ -279,7 +286,50 @@ class _MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, s) => Center(child: Text(l10n.error(e.toString()))),
+              error: (e, s) {
+                // Check if this is a session expiration error
+                final errorMessage = e.toString();
+                if (errorMessage.contains('session has expired') ||
+                    errorMessage.contains('401')) {
+                  // Redirect to login after a brief delay
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    if (mounted) {
+                      context.go('/login');
+                    }
+                  });
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.lock_clock,
+                            size: 64,
+                            color: AppColors.warning,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Session Expired',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Redirecting to login...',
+                            style: const TextStyle(color: AppColors.grey),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                return Center(child: Text(l10n.error(errorMessage)));
+              },
             ),
     );
   }

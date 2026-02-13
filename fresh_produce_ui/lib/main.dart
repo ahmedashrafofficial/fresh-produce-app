@@ -37,7 +37,8 @@ class FreshProduceApp extends ConsumerWidget {
         GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
         GoRoute(
           path: '/login',
-          builder: (context, state) => const LoginScreen(),
+          builder: (context, state) =>
+              LoginScreen(redirectTo: state.uri.queryParameters['redirect_to']),
         ),
         GoRoute(
           path: '/register',
@@ -53,7 +54,12 @@ class FreshProduceApp extends ConsumerWidget {
           builder: (context, state) =>
               CheckoutScreen(roundId: state.pathParameters['roundId']!),
           redirect: (context, state) {
-            if (auth == null) return '/login';
+            if (auth == null) {
+              return Uri(
+                path: '/login',
+                queryParameters: {'redirect_to': state.uri.toString()},
+              ).toString();
+            }
             return null;
           },
         ),

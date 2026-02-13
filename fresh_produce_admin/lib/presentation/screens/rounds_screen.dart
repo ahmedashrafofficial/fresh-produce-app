@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants/app_dimensions.dart';
 import '../../core/constants/round_sort_option.dart';
 import '../../core/utils/extensions/round_status_extensions.dart';
 import '../../domain/entities/neighborhood.dart';
@@ -59,7 +60,9 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppDimensions.paddingM,
+                  ),
                   child: DropdownButton<RoundSortOption>(
                     value: _selectedSortOption,
                     icon: const Icon(Icons.sort),
@@ -194,7 +197,7 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
         );
 
         return Card(
-          margin: const EdgeInsets.all(8),
+          margin: const EdgeInsets.all(AppDimensions.paddingS),
           child: ListTile(
             onTap: () {
               Navigator.push(
@@ -346,7 +349,7 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                     },
                   ),
                   DropdownButtonFormField<String>(
-                    value: selectedNeighborhoodId,
+                    initialValue: selectedNeighborhoodId,
                     decoration: InputDecoration(labelText: l10n.neighborhood),
                     items: neighborhoods.map((n) {
                       return DropdownMenuItem(value: n.id, child: Text(n.name));
@@ -358,7 +361,7 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                     },
                   ),
                   DropdownButtonFormField<RoundStatus>(
-                    value: selectedStatus,
+                    initialValue: selectedStatus,
                     decoration: InputDecoration(labelText: l10n.status),
                     items: RoundStatus.values.map((status) {
                       return DropdownMenuItem(
@@ -381,7 +384,7 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                     ),
                     keyboardType: TextInputType.number,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppDimensions.spaceM),
                   Text(
                     l10n.products,
                     style: Theme.of(context).textTheme.titleMedium,
@@ -403,9 +406,11 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                         );
 
                     return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 4),
+                      margin: const EdgeInsets.symmetric(
+                        vertical: AppDimensions.paddingXS,
+                      ),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(AppDimensions.paddingS),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -431,7 +436,7 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                             if (editingProducts.containsKey(product.id))
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
+                                  horizontal: AppDimensions.paddingM,
                                 ),
                                 child: Column(
                                   children: [
@@ -450,7 +455,9 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                                                     double.tryParse(val) ?? 0,
                                           ),
                                         ),
-                                        const SizedBox(width: 8),
+                                        const SizedBox(
+                                          width: AppDimensions.spaceS,
+                                        ),
                                         Expanded(
                                           child: TextFormField(
                                             initialValue: rp
@@ -481,7 +488,9 @@ class _RoundsScreenState extends ConsumerState<RoundsScreen> {
                                                 double.tryParse(val) ?? 0,
                                           ),
                                         ),
-                                        const SizedBox(width: 8),
+                                        const SizedBox(
+                                          width: AppDimensions.spaceS,
+                                        ),
                                         Expanded(
                                           child: TextFormField(
                                             initialValue: rp

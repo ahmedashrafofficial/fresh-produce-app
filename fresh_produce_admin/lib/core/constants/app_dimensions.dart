@@ -27,5 +27,13 @@ abstract class AppDimensions {
 
   static const double iconM = 24.0;
   static const double iconL = 32.0;
+
+  // Layout
+  static const double gridMaxExtent = 350.0;
+  static const double strokeS = 1.0;
+  static const double spaceXL = 32.0;
+
+  static const double buttonHeight = 50.0;
+  static const double loginCardWidth = 400.0;
   AppDimensions._();
 }

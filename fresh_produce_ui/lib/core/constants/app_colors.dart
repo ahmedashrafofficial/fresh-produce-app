@@ -20,9 +20,10 @@ abstract class AppColors {
   static const Color surfaceDark = Color(0xFF1E1E1E);
   // Status Colors
   static const Color error = Color(0xFFD90429);
-
   static const Color success = Color(0xFF2D6A4F);
   static const Color warning = Color(0xFFFFB703);
+  static const Color info = Color(0xFF4361EE);
+  static const Color neutral = Color(0xFF6C757D);
   // Text Colors
   static const Color textPrimaryLight = Color(0xFF1B4332);
 

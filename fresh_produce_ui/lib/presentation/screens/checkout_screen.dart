@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/constants/app_colors.dart';
 import '../../core/utils/extensions/round_product_extensions.dart';
 import '../providers/ui_providers.dart';
 
@@ -101,8 +102,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: _wantsDelivery
-                              ? const Color(0xFF2D6A4F)
-                              : Colors.grey.shade300,
+                              ? AppColors.primary
+                              : AppColors.grey.withValues(alpha: 0.3),
                           width: 2,
                         ),
                         borderRadius: BorderRadius.circular(12),
@@ -116,7 +117,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             ? const Text('Deliver to your address')
                             : null,
                         value: _wantsDelivery,
-                        activeColor: const Color(0xFF2D6A4F),
+                        activeColor: AppColors.primary,
                         onChanged: (v) => setState(() => _wantsDelivery = v!),
                       ),
                     ),
@@ -156,9 +157,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
+                          color: AppColors.warning.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.orange.shade200),
+                          border: Border.all(
+                            color: AppColors.warning.withValues(alpha: 0.2),
+                          ),
                         ),
                         child: Row(
                           children: [
@@ -177,7 +180,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                   Text(
                                     pickupAddress,
                                     style: TextStyle(
-                                      color: Colors.grey.shade700,
+                                      color: AppColors.textSecondaryLight,
                                     ),
                                   ),
                                 ],
@@ -194,7 +197,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF2D6A4F).withValues(alpha: 0.1),
+                        color: AppColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -209,7 +212,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                   l10n.cashOnDeliveryNotice,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF2D6A4F),
+                                    color: AppColors.primary,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -296,7 +299,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       minimumSize: const Size(double.infinity, 56),
                     ),
                     child: _isProcessing
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        ? CircularProgressIndicator(color: AppColors.white)
                         : Text(l10n.placeOrder),
                   ),
                 ),

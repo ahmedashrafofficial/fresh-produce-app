@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_produce_admin/l10n/app_localizations.dart';
 
 import '../../core/constants/api_endpoints.dart';
+import '../../core/constants/app_dimensions.dart';
 import '../providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -24,8 +25,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Scaffold(
       body: Center(
         child: Container(
-          width: 400,
-          padding: const EdgeInsets.all(32),
+          width: AppDimensions.loginCardWidth,
+          padding: const EdgeInsets.all(AppDimensions.paddingXL),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -33,25 +34,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 l10n.adminLogin,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: AppDimensions.spaceXL),
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(labelText: l10n.email),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppDimensions.spaceM),
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(labelText: l10n.password),
                 obscureText: true,
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: AppDimensions.spaceXL),
               if (_isLoading)
                 const CircularProgressIndicator()
               else
                 ElevatedButton(
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 50),
+                    minimumSize: const Size(
+                      double.infinity,
+                      AppDimensions.buttonHeight,
+                    ),
                   ),
                   child: Text(l10n.login),
                 ),

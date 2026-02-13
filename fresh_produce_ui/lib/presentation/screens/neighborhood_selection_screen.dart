@@ -4,6 +4,10 @@ import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:fresh_produce_ui/presentation/providers/ui_providers.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/constants/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/responsive_utils.dart';
+
 class NeighborhoodSelectionScreen extends ConsumerWidget {
   const NeighborhoodSelectionScreen({super.key});
 
@@ -19,7 +23,7 @@ class NeighborhoodSelectionScreen extends ConsumerWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Theme.of(context).colorScheme.primary.withOpacity(0.8),
+              Theme.of(context).colorScheme.primary.withValues(alpha: 0.8),
               Theme.of(context).colorScheme.primary,
             ],
           ),
@@ -28,51 +32,59 @@ class NeighborhoodSelectionScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 60),
+              SizedBox(height: ResponsiveUtils.height(context, 60)),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: EdgeInsets.symmetric(
+                  horizontal: ResponsiveUtils.padding(context, 24),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       l10n.welcomeTo,
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(color: Colors.white70),
+                      style: AppTextStyles.responsiveH3(
+                        context,
+                      ).copyWith(color: AppColors.white.withValues(alpha: 0.7)),
                     ),
                     Text(
                       l10n.appTitle,
-                      style: Theme.of(context).textTheme.headlineLarge
-                          ?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      style: AppTextStyles.responsiveH1(context).copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: ResponsiveUtils.height(context, 16)),
                     Text(
                       l10n.chooseNeighborhoodNotice,
-                      style: Theme.of(
+                      style: AppTextStyles.responsiveBodyLarge(
                         context,
-                      ).textTheme.bodyLarge?.copyWith(color: Colors.white60),
+                      ).copyWith(color: AppColors.white.withValues(alpha: 0.6)),
                     ),
                   ],
                 ),
               ),
               const Spacer(),
               Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+                decoration: BoxDecoration(
+                  color: AppColors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(32),
-                    topRight: Radius.circular(32),
+                    topLeft: Radius.circular(
+                      ResponsiveUtils.radius(context, 32),
+                    ),
+                    topRight: Radius.circular(
+                      ResponsiveUtils.radius(context, 32),
+                    ),
                   ),
                 ),
-                padding: const EdgeInsets.all(32),
+                padding: EdgeInsets.all(ResponsiveUtils.padding(context, 32)),
                 child: neighborhoodsAsync.when(
                   data: (neighborhoods) => Column(
                     children: [
                       ...neighborhoods.map(
                         (n) => Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
+                          padding: EdgeInsets.only(
+                            bottom: ResponsiveUtils.padding(context, 16),
+                          ),
                           child: InkWell(
                             onTap: () {
                               ref
@@ -81,26 +93,80 @@ class NeighborhoodSelectionScreen extends ConsumerWidget {
                               context.go('/');
                             },
                             child: Container(
-                              padding: const EdgeInsets.all(20),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: ResponsiveUtils.padding(
+                                  context,
+                                  20,
+                                ),
+                                vertical: ResponsiveUtils.padding(context, 24),
+                              ),
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey.shade200),
-                                borderRadius: BorderRadius.circular(16),
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.circular(
+                                  ResponsiveUtils.radius(context, 24),
+                                ),
+                                border: Border.all(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.primary.withValues(alpha: 0.08),
+                                  width: 1.5,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Theme.of(context).colorScheme.primary
+                                        .withValues(alpha: 0.04),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
                               ),
                               child: Row(
                                 children: [
-                                  const Icon(
-                                    Icons.location_on,
-                                    color: Color(0xFF2D6A4F),
+                                  Container(
+                                    padding: EdgeInsets.all(
+                                      ResponsiveUtils.padding(context, 12),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withValues(alpha: 0.1),
+                                      borderRadius: BorderRadius.circular(
+                                        ResponsiveUtils.radius(context, 16),
+                                      ),
+                                    ),
+                                    child: Icon(
+                                      Icons.location_on,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                      size: ResponsiveUtils.iconSize(
+                                        context,
+                                        28,
+                                      ),
+                                    ),
                                   ),
-                                  const SizedBox(width: 16),
-                                  Text(
-                                    n.name,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.titleLarge,
+                                  SizedBox(
+                                    width: ResponsiveUtils.width(context, 20),
                                   ),
-                                  const Spacer(),
-                                  const Icon(Icons.arrow_forward_ios, size: 16),
+                                  Expanded(
+                                    child: Text(
+                                      n.name,
+                                      style: AppTextStyles.responsiveH3(context)
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                          ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: ResponsiveUtils.iconSize(context, 16),
+                                    color: Theme.of(context).colorScheme.primary
+                                        .withValues(alpha: 0.3),
+                                  ),
                                 ],
                               ),
                             ),

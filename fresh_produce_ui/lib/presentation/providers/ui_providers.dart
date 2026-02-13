@@ -51,7 +51,23 @@ final dioProvider = Provider<Dio>((ref) {
       },
       onError: (e, handler) {
         if (e.response?.statusCode == 401) {
+          // Token expired or invalid - logout and invalidate all data
           ref.read(authProvider.notifier).logout();
+
+          // Invalidate all cached data
+          ref.invalidate(myOrdersProvider);
+          ref.invalidate(activeRoundsProvider);
+          ref.invalidate(neighborhoodsProvider);
+
+          // Return a more user-friendly error
+          return handler.reject(
+            DioException(
+              requestOptions: e.requestOptions,
+              response: e.response,
+              type: DioExceptionType.badResponse,
+              error: 'Your session has expired. Please login again.',
+            ),
+          );
         }
         return handler.next(e);
       },

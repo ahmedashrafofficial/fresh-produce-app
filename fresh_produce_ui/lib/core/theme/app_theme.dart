@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/app_dimensions.dart';
@@ -6,9 +7,11 @@ import 'app_text_styles.dart';
 
 abstract class AppTheme {
   static ThemeData get dark {
-    return ThemeData(
+    final baseTheme = ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+    );
+    return baseTheme.copyWith(
       primaryColor: AppColors.primary,
       scaffoldBackgroundColor: AppColors.backgroundDark,
       colorScheme: const ColorScheme.dark(
@@ -20,6 +23,30 @@ abstract class AppTheme {
         onSecondary: AppColors.textPrimaryDark,
         onSurface: AppColors.textPrimaryDark,
         onError: AppColors.white,
+      ),
+      textTheme: GoogleFonts.cairoTextTheme(baseTheme.textTheme).copyWith(
+        headlineLarge: AppTextStyles.h1.copyWith(
+          color: AppColors.textPrimaryDark,
+        ),
+        headlineMedium: AppTextStyles.h2.copyWith(
+          color: AppColors.textPrimaryDark,
+        ),
+        headlineSmall: AppTextStyles.h3.copyWith(
+          color: AppColors.textPrimaryDark,
+        ),
+        titleLarge: AppTextStyles.h3.copyWith(color: AppColors.textPrimaryDark),
+        bodyLarge: AppTextStyles.bodyLarge.copyWith(
+          color: AppColors.textPrimaryDark,
+        ),
+        bodyMedium: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.textPrimaryDark,
+        ),
+        bodySmall: AppTextStyles.bodySmall.copyWith(
+          color: AppColors.textPrimaryDark,
+        ),
+        labelLarge: AppTextStyles.label.copyWith(
+          color: AppColors.textPrimaryDark,
+        ),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.surfaceDark,
@@ -68,9 +95,11 @@ abstract class AppTheme {
   }
 
   static ThemeData get light {
-    return ThemeData(
+    final baseTheme = ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
+    );
+    return baseTheme.copyWith(
       primaryColor: AppColors.primary,
       scaffoldBackgroundColor: AppColors.backgroundLight,
       colorScheme: const ColorScheme.light(
@@ -82,6 +111,32 @@ abstract class AppTheme {
         onSecondary: AppColors.textPrimaryLight,
         onSurface: AppColors.textPrimaryLight,
         onError: AppColors.white,
+      ),
+      textTheme: GoogleFonts.cairoTextTheme(baseTheme.textTheme).copyWith(
+        headlineLarge: AppTextStyles.h1.copyWith(
+          color: AppColors.textPrimaryLight,
+        ),
+        headlineMedium: AppTextStyles.h2.copyWith(
+          color: AppColors.textPrimaryLight,
+        ),
+        headlineSmall: AppTextStyles.h3.copyWith(
+          color: AppColors.textPrimaryLight,
+        ),
+        titleLarge: AppTextStyles.h3.copyWith(
+          color: AppColors.textPrimaryLight,
+        ),
+        bodyLarge: AppTextStyles.bodyLarge.copyWith(
+          color: AppColors.textPrimaryLight,
+        ),
+        bodyMedium: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.textPrimaryLight,
+        ),
+        bodySmall: AppTextStyles.bodySmall.copyWith(
+          color: AppColors.textPrimaryLight,
+        ),
+        labelLarge: AppTextStyles.label.copyWith(
+          color: AppColors.textPrimaryLight,
+        ),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.primary,

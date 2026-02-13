@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_produce_ui/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/constants/app_colors.dart';
 import '../../core/utils/extensions/round_product_extensions.dart';
 import '../../core/utils/extensions/round_status_extensions.dart';
 import '../providers/ui_providers.dart';
@@ -31,7 +32,7 @@ class RoundDetailsScreen extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: Theme.of(
                     context,
-                  ).colorScheme.primary.withOpacity(0.05),
+                  ).colorScheme.primary.withValues(alpha: 0.05),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,9 +53,11 @@ class RoundDetailsScreen extends ConsumerWidget {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.green.shade100),
+                            border: Border.all(
+                              color: AppColors.success.withValues(alpha: 0.1),
+                            ),
                           ),
                           child: Text(
                             round.status.getLabel(l10n).toUpperCase(),
@@ -64,8 +67,8 @@ class RoundDetailsScreen extends ConsumerWidget {
                               color:
                                   (round.status.index >= 2 &&
                                       round.status.index <= 6)
-                                  ? Colors.green.shade700
-                                  : Colors.blue.shade700,
+                                  ? AppColors.success
+                                  : AppColors.primaryLight,
                             ),
                           ),
                         ),
@@ -77,14 +80,14 @@ class RoundDetailsScreen extends ConsumerWidget {
                         const Icon(
                           Icons.calendar_today,
                           size: 14,
-                          color: Colors.grey,
+                          color: AppColors.grey,
                         ),
                         const SizedBox(width: 8),
                         Text(
                           '${l10n.deadline}${round.endDate.toLocal().toString().split('.')[0]}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 13,
-                            color: Colors.black87,
+                            color: AppColors.black.withValues(alpha: 0.87),
                           ),
                         ),
                       ],
@@ -94,15 +97,15 @@ class RoundDetailsScreen extends ConsumerWidget {
                       l10n.priceNotice,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF2D6A4F),
+                        color: AppColors.primary,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       l10n.priceNoticeDetail,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: Colors.black87,
+                        color: AppColors.black.withValues(alpha: 0.87),
                       ),
                     ),
                   ],

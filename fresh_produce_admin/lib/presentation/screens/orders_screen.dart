@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/constants/app_dimensions.dart';
 import '../../core/utils/extensions/order_status_extensions.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/entities/order_status.dart';
@@ -39,7 +40,7 @@ class OrdersScreen extends ConsumerWidget {
       itemBuilder: (context, index) {
         final order = orders[index];
         return Card(
-          margin: const EdgeInsets.all(8),
+          margin: const EdgeInsets.all(AppDimensions.paddingS),
           child: ExpansionTile(
             title: Text(
               order.orderNumber > 0
@@ -49,7 +50,7 @@ class OrdersScreen extends ConsumerWidget {
             subtitle: Text('${l10n.status}: ${order.status.getLabel(l10n)}'),
             children: [
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(AppDimensions.paddingM),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -72,7 +73,7 @@ class OrdersScreen extends ConsumerWidget {
                         '${item.productName ?? item.productId}: ${item.quantityKg} ${l10n.kg}',
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppDimensions.spaceM),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

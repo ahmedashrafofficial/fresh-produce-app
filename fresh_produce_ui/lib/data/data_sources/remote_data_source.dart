@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 
 import '../../core/constants/api_endpoints.dart';
@@ -35,8 +37,23 @@ class RemoteDataSource implements IRemoteDataSource {
   @override
   Future<List<OrderModel>> getMyOrders() async {
     final response = await _dio.get(ApiEndpoints.myOrders);
-    final data = response.data;
+    var data = response.data;
+
     if (data == null) return [];
+
+    if (data is String) {
+      if (data.trim().isEmpty) {
+        return [];
+      }
+      try {
+        data = jsonDecode(data);
+      } catch (e) {
+        print('Error decoding myOrders string response: $e');
+        print('Raw data: "$data"');
+        throw Exception('Failed to decode response: $data');
+      }
+    }
+
     if (data is! List) {
       print(
         'Unexpected response type for myOrders: ${data.runtimeType} - $data',

@@ -1,0 +1,27 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "REPLACE_WITH_YOUR_AZURE_SQL_CONNECTION_STRING"
+  },
+  "JwtSettings": {
+    "SecretKey": "REPLACE_WITH_YOUR_SECURE_SECRET_KEY_MINIMUM_32_CHARACTERS",
+    "Issuer": "FreshProduceApi",
+    "Audience": "FreshProduceApp",
+    "ExpiryMinutes": 60
+  },
+  "Cors": {
+    "AllowedOrigins": [
+      "https://YOUR_FIREBASE_PROJECT_ID.web.app",
+      "https://YOUR_FIREBASE_PROJECT_ID.firebaseapp.com"
+    ]
+  },
+  "ApplicationInsights": {
+    "InstrumentationKey": "OPTIONAL_AZURE_APP_INSIGHTS_KEY"
+  }
+}

@@ -43,3 +43,29 @@ desktop.ini
 # --- ENV ---
 .env
 .env.*
+
+# --- DEPLOYMENT ---
+# Firebase
+.firebase/
+.firebaserc.local
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Azure
+*.pubxml
+*.pubxml.user
+publish/
+publish.zip
+*.azurePubxml
+
+# Secrets (NEVER commit these!)
+appsettings.Production.json
+appsettings.Staging.json
+*.pfx
+*.p12
+
+# Build artifacts
+FreshProduce.Api/bin/
+FreshProduce.Api/obj/
+fresh_produce_ui/build/web/
